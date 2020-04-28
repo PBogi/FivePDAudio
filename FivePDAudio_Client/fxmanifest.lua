@@ -3,7 +3,7 @@ games { 'gta5' }
 
 author 'Bogi'
 description 'FivePD Audio Expansion'
-version '0.1.0'
+version '0.1.2'
 
 client_script 'FivePDAudio_Client.net.dll'
 
@@ -13,5 +13,5 @@ files {
     'Newtonsoft.Json.dll',
     'AUDIO/index.html',
     'AUDIO/howler.min.js',
-    'AUDIO/**/*'
+    'AUDIO/**/*.*'
 }
