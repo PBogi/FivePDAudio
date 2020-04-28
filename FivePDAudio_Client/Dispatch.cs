@@ -74,8 +74,6 @@ namespace fivepdaudio
             List<string> SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"ATTENTION_ALL_UNITS_GEN/ATTENTION_ALL_UNITS_GENERIC_")).ToList();
             soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
-            Debug.WriteLine(ResponseCode.ToString());
-
             if (ResponseCode == 99)
             {
                 SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"OFFICER_REQUESTS_BACKUP/CODE99")).ToList();
