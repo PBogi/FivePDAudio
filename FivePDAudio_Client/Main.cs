@@ -15,7 +15,6 @@ namespace fivepdaudio
             GetSettings();
             //Speech.SetVoice();
 
-            // TODO: Register voice changing command
             /*RegisterCommand("setvoice", new Action<int, List<object>, string>((source, args, raw) =>
             {
                 // Parameter: Gender, Type (cop,hwaycop,sheriff), color, variant
@@ -23,14 +22,11 @@ namespace fivepdaudio
             }), false);*/
 
 
-            // Initialize all crime audio files
-            Dispatch.InitializeCrimeAudio();
-
             // Register all Event handlers
             RegisterEventHandlers();
 
 
-            SoundHandler soundHandler = new SoundHandler();
+            AudioHandler soundHandler = new AudioHandler();
             Tick += soundHandler.Play;
             Tick += onTick;
         }
@@ -47,12 +43,12 @@ namespace fivepdaudio
         void RegisterEventHandlers()
         {
             // Register Audio API Event Handlers
-            EventHandlers["FivePDAudio::RegisterCallout"] += new Action<string, string>(Dispatch.RegisterCalloutAudio);
+            EventHandlers["FivePDAudio::RegisterCallout"] += new Action<string, string>(AudioLibrary.RegisterCalloutAudio);
             EventHandlers["FivePDAudio::DispatchPlay"] += new Action<string>(Dispatch.AddToDispatchQueue);
 
             // Register NUI Callback Event handler
             RegisterNuiCallbackType("FinishedPlaying");
-            EventHandlers["__cfx_nui:FinishedPlaying"] += new Action(SoundHandler.FinishedPlaying);
+            EventHandlers["__cfx_nui:FinishedPlaying"] += new Action(AudioHandler.FinishedPlaying);
 
             /*****************\
             |  FivePD Events  |
@@ -72,13 +68,7 @@ namespace fivepdaudio
         void GetSettings()
         {
             float ProfileVolume = GetProfileSetting(300) / 10; // 0? - 10 <stat Name="_PROFILE_SETTING_300"    Type="profilesetting"  profile="true"  FlushPriority="15"  ProfileSettingId="300"  Comment="AUDIO_SFX_LEVEL - 300" /><
-            SoundHandler.soundVolume = ProfileVolume * 0.5f;
-
-            /*TODO: Settings:
-                Speech true/false
-                specific calloutaudio
-                no calloutaudio             
-            */
+            AudioHandler.soundVolume = ProfileVolume * 0.5f;
         }
     }
 }

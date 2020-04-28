@@ -49,11 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioLibrary.cs" />
     <Compile Include="Dispatch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Speech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SoundHandler.cs" />
+    <Compile Include="AudioHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">

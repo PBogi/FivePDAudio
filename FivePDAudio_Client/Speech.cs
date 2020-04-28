@@ -9,7 +9,6 @@ namespace fivepdaudio
     {
         public static int voiceId = 0;
         public static string playerVoice;
-        // TODO: Speech on "E" (abschaltbar)
         // PlayAmbientSpeech2(PedId, "GENERIC_CURSE_HIGH", "SPEECH_PARAMS_SHOUTED");
         // https://runtime.fivem.net/doc/natives/?_0xC6941B4A3A8FBBB9
         // https://pastebin.com/1GZS5dCL
@@ -17,7 +16,6 @@ namespace fivepdaudio
         // https://runtime.fivem.net/doc/natives/?_0x3523634255FC3318
         // Voice an Hand von player ped model zuweisen
         //PlayAmbientSpeechWithVoice(PlayerPedId(), "DRAW_GUN_03", "s_m_y_cop_01_white_full_01", "SPEECH_PARAMS_FORCE_SHOUTED", false);
-        // eventuell sogar Ped Antworten implementieren bzw Fragen an Ped (abschaltbar)
 
         public static string ownVoice;
 

@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace fivepdaudio
 {
-    class SoundHandler
+    class AudioHandler
     {
         public static float soundVolume = 0.75f;
         public static bool isPlaying;
