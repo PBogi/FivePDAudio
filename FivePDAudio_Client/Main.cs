@@ -31,7 +31,9 @@ namespace fivepdaudio
             Tick += onTick;
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private static async Task onTick()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             /*if (IsControlJustPressed(0, 38))
             {

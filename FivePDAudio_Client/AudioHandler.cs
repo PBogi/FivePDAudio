@@ -75,7 +75,9 @@ namespace fivepdaudio
             await BaseScript.Delay(2500);
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task Stop()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             SendNuiMessage(JsonConvert.SerializeObject(new
             {

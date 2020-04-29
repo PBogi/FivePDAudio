@@ -1,7 +1,5 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Debug = CitizenFX.Core.Debug;
 
@@ -17,7 +15,6 @@ namespace fivepdaudio
         static public void ReceiveCalloutInformation(string ShortName, string Address, int ResponseCode, string Description, string Identifier)
         {
             List<string> soundFiles = new List<string>();
-
 
             List<string> SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"ATTENTION_ALL_UNITS_GEN/ATTENTION_ALL_UNITS_GENERIC_")).ToList();
             soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
@@ -80,7 +77,9 @@ namespace fivepdaudio
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
                 AudioHandler soundHandler = new AudioHandler();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 soundHandler.PlayCode99(soundFiles.ToArray());
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
             else
             {
