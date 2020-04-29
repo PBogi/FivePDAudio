@@ -79,10 +79,13 @@ namespace fivepdaudio
         public async Task Stop()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            SendNuiMessage(JsonConvert.SerializeObject(new
+            if (isPlaying == true)
             {
-                Action = "stop"
-            }));
+                SendNuiMessage(JsonConvert.SerializeObject(new
+                {
+                    Action = "stop"
+                }));
+            }
         }
 
         public static void FinishedPlaying()
