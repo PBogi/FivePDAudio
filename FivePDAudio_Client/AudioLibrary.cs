@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace fivepdaudio
 {
@@ -12,10 +8,7 @@ namespace fivepdaudio
         static public Dictionary<string, string> registeredCrimeAudio = new Dictionary<string, string>();
         static public void RegisterCalloutAudio(string calloutName, string calloutAudio)
         {
-            if (!registeredCrimeAudio.ContainsKey(calloutName))
-            {
-                registeredCrimeAudio.Add(calloutName, calloutAudio);
-            }
+            registeredCrimeAudio[calloutName] = calloutAudio;
         }
         
 
