@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace fivepdaudio
 {
@@ -68,6 +70,11 @@ namespace fivepdaudio
         {
             float ProfileVolume = GetProfileSetting(300) / 10; // 0? - 10 <stat Name="_PROFILE_SETTING_300"    Type="profilesetting"  profile="true"  FlushPriority="15"  ProfileSettingId="300"  Comment="AUDIO_SFX_LEVEL - 300" /><
             AudioHandler.soundVolume = ProfileVolume * 0.5f;
+            Debug.WriteLine("Audio Volume set to " + AudioHandler.soundVolume);
+
+            //Load callouts
+            AudioLibrary.configuredCallouts = JObject.Parse(LoadResourceFile("fivepdaudio", "callouts.json"));
+            Debug.WriteLine("Loaded callouts.json");
         }
     }
 }

@@ -12,67 +12,64 @@ namespace fivepdaudio
         public static List<string[]> dispatchQueue = new List<string[]>();
 
         // New callout
-        static public void ReceiveCalloutInformation(string ShortName, string Address, int ResponseCode, string Description, string Identifier)
+        public static void ReceiveCalloutInformation(string ShortName, string Address, int ResponseCode, string Description, string Identifier)
         {
+            Debug.WriteLine("Received callout information");
             List<string> soundFiles = new List<string>();
 
+            soundFiles.Add(@"EFFECTS/INTRO_01.ogg");
             List<string> SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"ATTENTION_ALL_UNITS_GEN/ATTENTION_ALL_UNITS_GENERIC_")).ToList();
             soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
-            List<string> crimeSounds = new List<string>();
 
-            // Search for registered callouts first
-            if(AudioLibrary.registeredCrimeAudio.ContainsKey(ShortName))
+            // Search for registered callouts first, then check callouts.json
+            if (AudioLibrary.registeredCrimeAudio.ContainsKey(ShortName))
             {
-                crimeSounds.Add(AudioLibrary.registeredCrimeAudio[ShortName]);
-            }
-            else
-            {
-                foreach (var element in AudioLibrary.availableCrimeAudio)
-                {
-                    if (element.Key.Contains(ShortName.ToLower()))
-                    {
-                        crimeSounds.Add(element.Value);
-                    }
-                }
-            }
-
-
-            if (crimeSounds.Count > 0) {
                 SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"WE_HAVE/CITIZENS")).ToList();
                 SearchFiles.AddRange(AudioLibrary.availableAudio.Where(x => x.StartsWith(@"WE_HAVE/WE")));
-
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
-
-                int index = random.Next(crimeSounds.Count);
-                soundFiles.Add(crimeSounds[index]);
-
-                soundFiles.Add(@"DISPATCH_RESPOND_CODE/RESPOND_CODE_" + ResponseCode.ToString() + ".ogg");
+                SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(AudioLibrary.registeredCrimeAudio[ShortName])).ToList();
+                soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
             }
-            else
+            else if (AudioLibrary.configuredCallouts.ContainsKey(ShortName))
+            {
+                SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"WE_HAVE/CITIZENS")).ToList();
+                SearchFiles.AddRange(AudioLibrary.availableAudio.Where(x => x.StartsWith(@"WE_HAVE/WE")));
+                soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
+
+                SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith((string)AudioLibrary.configuredCallouts[ShortName])).ToList();
+                soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
+            }
+
+            if (ResponseCode > 1)
             {
                 soundFiles.Add(@"DISPATCH_RESPOND_CODE/RESPOND_CODE_" + ResponseCode.ToString() + ".ogg");
             }
+            soundFiles.Add(@"EFFECTS/OUTRO_01.ogg");
 
+            Debug.WriteLine("Finished creating playlist, adding it to dispatch queue");
             dispatchQueue.Add(soundFiles.ToArray());
         }
 
         // Callout ended (currently unused)
-        static public void CalloutEnded(string Identifier)
+        public static void CalloutEnded(string Identifier)
         {
+            Debug.WriteLine("Received code 4, adding it to dispatch queue");
             dispatchQueue.Add(new string[] { @"STAND_DOWN/ALL_UNITS_CODE_4.ogg" });
         }
 
         // Backup requests
-        static public void ReceiveBackupRequest(string CallSign, int departmentID, int playerNetworkID, int ResponseCode)
+        public static void ReceiveBackupRequest(string CallSign, int departmentID, int playerNetworkID, int ResponseCode)
         {
+            Debug.WriteLine("Received backup information");
             List<string> soundFiles = new List<string>();
             List<string> SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"ATTENTION_ALL_UNITS_GEN/ATTENTION_ALL_UNITS_GENERIC_")).ToList();
             soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
             if (ResponseCode == 99)
             {
+                Debug.WriteLine("Code 99!");
                 SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"OFFICER_REQUESTS_BACKUP/CODE99")).ToList();
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
@@ -83,18 +80,25 @@ namespace fivepdaudio
             else
             {
                 soundFiles.Add(@"OFFICER_REQUESTS_BACKUP/OFFICER_REQUESTING_BACKUP.ogg");
-                soundFiles.Add(@"DISPATCH_RESPOND_CODE/RESPOND_CODE_" + ResponseCode.ToString() + ".ogg");
+                if (ResponseCode > 1)
+                {
+                    soundFiles.Add(@"DISPATCH_RESPOND_CODE/RESPOND_CODE_" + ResponseCode.ToString() + ".ogg");
+                }
+
+                Debug.WriteLine("Finished creating playlist, adding it to dispatch queue");
                 dispatchQueue.Add(soundFiles.ToArray());
-            }            
+            } 
+
         }
-        static public void ReceiveBackupRequestCallout(string CallSign, int departmentID, string ShortName, int playerNetworkID, int ResponseCode)
+        public static void ReceiveBackupRequestCallout(string CallSign, int departmentID, string ShortName, int playerNetworkID, int ResponseCode)
         {
             ReceiveBackupRequest(CallSign, departmentID, playerNetworkID, ResponseCode);
         }
 
         // End Backup
-        static public void EndBackupRequest(string CallSign,int networkID)
+        public static void EndBackupRequest(string CallSign,int networkID)
         {
+            Debug.WriteLine("Received code 4, adding it to dispatch queue");
             dispatchQueue.Add(new string[] { @"STAND_DOWN/ALL_UNITS_CODE_4.ogg" });
         }
 
@@ -102,6 +106,7 @@ namespace fivepdaudio
         // API Call, add to dispatch queue
         public static void AddToDispatchQueue(string audioList)
         {
+            Debug.WriteLine("Dispatch playlist received via event from 3rd party, adding it to queue");
             if (dispatchQueue.Count <= 3)
             {
                 dispatchQueue.Add(audioList.Split(','));

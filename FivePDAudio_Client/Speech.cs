@@ -16,6 +16,7 @@ namespace fivepdaudio
         // https://runtime.fivem.net/doc/natives/?_0x3523634255FC3318
         // Voice an Hand von player ped model zuweisen
         //PlayAmbientSpeechWithVoice(PlayerPedId(), "DRAW_GUN_03", "s_m_y_cop_01_white_full_01", "SPEECH_PARAMS_FORCE_SHOUTED", false);
+        //using CitizenFX.Core.Native; Function.Call<string>(Hash.LOAD_RESOURCE_FILE, "lspdfrm", "callouts.json");
 
         public static string ownVoice;
 

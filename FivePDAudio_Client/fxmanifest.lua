@@ -11,6 +11,7 @@ ui_page('AUDIO/index.html')
 
 files {
     'Newtonsoft.Json.dll',
+    'callouts.json',
     'AUDIO/index.html',
     'AUDIO/howler.min.js',
     'AUDIO/**/*.*'

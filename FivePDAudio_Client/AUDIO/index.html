@@ -25,6 +25,7 @@
 						howlerBank.push(new Howl({
 							src: ["./" + file],
 							volume: event.data.Volume,
+							preload: true,
 							onend: onEnd
 						}))
 					});
