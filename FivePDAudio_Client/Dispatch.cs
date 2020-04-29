@@ -76,9 +76,8 @@ namespace fivepdaudio
                 SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"OFFICER_REQUESTS_BACKUP/CODE99")).ToList();
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
-                AudioHandler soundHandler = new AudioHandler();
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                soundHandler.PlayCode99(soundFiles.ToArray());
+                AudioHandler.PlayCode99(soundFiles.ToArray());
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
             else

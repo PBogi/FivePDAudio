@@ -11,7 +11,7 @@ namespace fivepdaudio
         public static float soundVolume = 0.75f;
         public static bool isPlaying;
         
-        public async Task Play()
+        static public async Task Play()
         {
             if (Dispatch.dispatchQueue.Count > 0 && isPlaying != true) {
                 string[] soundArray = Dispatch.dispatchQueue[0];
@@ -45,7 +45,7 @@ namespace fivepdaudio
             }
         }
 
-        public async Task PlayCode99(string[] soundArray)
+        static public async Task PlayCode99(string[] soundArray)
         {
             isPlaying = true;
             await Stop();
@@ -76,7 +76,7 @@ namespace fivepdaudio
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async Task Stop()
+        static public async Task Stop()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             if (isPlaying == true)
