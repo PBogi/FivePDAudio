@@ -33,7 +33,7 @@ namespace fivepdaudio
                 while(isPlaying == true)
                 {
                     i++;
-                    if (i > 15)
+                    if (i > 10)
                     {
                         // Force Stop
                         await Stop();
