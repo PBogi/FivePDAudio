@@ -1,6 +1,4 @@
-﻿Copyright (c) 2020 Peter Bogensperger
-
-Do not redistribute this mod or parts of it without my approval, this
+﻿Do not redistribute this mod or parts of it without my approval, this
 includes adding it to your own resource.
 
 
