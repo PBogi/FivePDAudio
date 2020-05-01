@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioLibrary.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="Dispatch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Settings.cs" />

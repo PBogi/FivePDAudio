@@ -8,7 +8,6 @@ namespace fivepdaudio
 {
     public class Main : BaseScript
     {
-
         public Main()
         {
             // Read settings from json and playerprofile
@@ -21,7 +20,7 @@ namespace fivepdaudio
                 //Speech.ChangeVoice(args);
             }), false);*/
 
-            RegisterCommand("audio", new Action<int, List<object>, string>(CommandHandler),false);
+            RegisterCommand("audio", new Action<int, List<object>, string>(Common.CommandHandler),false);
  
 
             // Register all Event handlers
@@ -62,55 +61,6 @@ namespace fivepdaudio
             EventHandlers["nuiReceiveAssistanceRequired"] += new Action<string, int, int, int>(Dispatch.ReceiveBackupRequest);
             // End Backup Request
             EventHandlers["nuiDeleteAssistanceRequired"] += new Action<string, int>(Dispatch.EndBackupRequest);
-
-        }
-
-        void CommandHandler(int source, List<object> args, string raw)
-        {
-            if (args.Count >= 2)
-            {
-                switch (args[0].ToString().ToLower())
-                {
-                    case "debug":
-                        try
-                        {
-                            Settings.Debug = Convert.ToBoolean(args[1]);
-                            OutputChat(new[] { 255, 255, 255 }, new[] { "[FivePDAudio] Set debug to " + args[1].ToString() + "; Debug messages should appear in the client console (F8)"});
-                        }
-                        catch
-                        {
-                            OutputChat(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid value", "Needs to be true or false"});
-                        }
-                        break;
-
-                    default:
-                            OutputChat(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid argument","Type /audio to see available commands" });
-                        break;
-                }
-            }
-            else
-            {
-                OutputChat(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid argument count" });
-                OutputChat(new[] { 255, 255, 255 }, new[] { "Available arguments:"});
-                OutputChat(new[] { 255, 255, 255 }, new[] { "debug true/false"});
-            }
-        }
-
-        void OutputChat(int[] messagecolor, string[] message)
-        {
-            BaseScript.TriggerEvent("chat:addMessage", new
-            {
-                color = messagecolor, //new[] { 255, 0, 0 },
-                args = message //new[] { "Invalid value" }
-            });
-        }
-
-        public static void OutputDebug(string message)
-        {
-            if(Settings.Debug == true)
-            {
-                Debug.WriteLine(message);
-            }            
         }
     }
 }
