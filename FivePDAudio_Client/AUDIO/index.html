@@ -3,11 +3,10 @@
 		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
 		<script src="./howler.min.js" type="text/javascript"></script>
 		<script>
-			var howlerBank;
+			var howlerBank = [];
 
 			window.addEventListener('message', function(event) {
 				if (event.data.Action == "play") {
-					howlerBank = [];
 					playCount = 0;
 
 					var onEnd = function(e) {
@@ -32,11 +31,13 @@
 					howlerBank[playCount].play();
 				}
 				else if(event.data.Action == "stop") {
-					howlerBank.forEach(function(howlerHowl) {
-						howlerHowl.stop();
-						howlerHowl.unload();
-					});
-					howlerBank = [];
+                    if(howlerBank.length > 0) {
+					    howlerBank.forEach(function(howlerHowl) {
+						    howlerHowl.stop();
+						    howlerHowl.unload();
+					    });
+					    howlerBank = [];
+                    }
 				}
 			});
 		</script>
