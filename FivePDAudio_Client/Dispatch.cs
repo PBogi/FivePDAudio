@@ -63,7 +63,7 @@ namespace fivepdaudio
         }
 
         // Backup requests
-        public static void ReceiveBackupRequest(string CallSign, int departmentID, int playerNetworkID, int ResponseCode)
+        public static async void ReceiveBackupRequest(string CallSign, int departmentID, int playerNetworkID, int ResponseCode)
         {
             Common.DebugMessage("Received backup information");
             List<string> soundFiles = new List<string>();
@@ -76,7 +76,7 @@ namespace fivepdaudio
                 SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"OFFICER_REQUESTS_BACKUP/CODE99")).ToList();
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
-                Task.Run(() => AudioHandler.PlayCode99(soundFiles.ToArray()));
+                await AudioHandler.PlayCode99(soundFiles.ToArray());
             }
             else
             {
