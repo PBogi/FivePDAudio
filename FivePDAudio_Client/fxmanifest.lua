@@ -14,5 +14,5 @@ files {
     'callouts.json',
     'AUDIO/index.html',
     'AUDIO/howler.min.js',
-    'AUDIO/**/*.*'
+    'AUDIO/**/*.ogg'
 }
