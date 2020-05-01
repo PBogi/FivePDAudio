@@ -85,6 +85,18 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)\." "D:\Dev\FiveM\FXServer\server-data\resources\fivepdaudio" /S /E /Y</PostBuildEvent>
+    <PostBuildEvent>del /F /Q $(SolutionDir)Release\*.*
+del /F /Q $(SolutionDir)Release\AUDIO\*.*
+xcopy "$(TargetDir)\." "$(SolutionDir)Release" /S /E /Y
+
+del /F /Q "D:\Dev\FiveM\FXServer\server-data\resources\fivepdaudio\*.*"
+del /F /Q "D:\Dev\FiveM\FXServer\server-data\resources\fivepdaudio\AUDIO\*.*"
+xcopy "$(TargetDir)\." "D:\Dev\FiveM\FXServer\server-data\resources\fivepdaudio" /S /E /Y
+
+</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>
