@@ -54,7 +54,6 @@
     <Compile Include="Dispatch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Speech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AudioHandler.cs" />
   </ItemGroup>

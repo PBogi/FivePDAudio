@@ -12,17 +12,10 @@ namespace fivepdaudio
         {
             // Read settings from json and playerprofile
             Settings.GetSettings();
-            //Speech.SetVoice();
 
-            /*RegisterCommand("setvoice", new Action<int, List<object>, string>((source, args, raw) =>
-            {
-                // Parameter: Gender, Type (cop,hwaycop,sheriff), color, variant
-                //Speech.ChangeVoice(args);
-            }), false);*/
-
+            // Register command(s)
             RegisterCommand("audio", new Action<int, List<object>, string>(Common.CommandHandler),false);
  
-
             // Register all Event handlers
             RegisterEventHandlers();
 
@@ -32,11 +25,6 @@ namespace fivepdaudio
         private static async Task OnTick()
         {
             await AudioHandler.Play();
-            /*if (IsControlJustPressed(0, 38))
-            {
-                Speech.StopPed();
-                // 38 	INPUT_PICKUP 	E 	LB
-            }*/
         }
 
         void RegisterEventHandlers()
