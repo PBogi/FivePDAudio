@@ -12,6 +12,7 @@ namespace fivepdaudio
             {
                 switch (args[0].ToString().ToLower())
                 {
+                    // DEBUG
                     case "debug":
                         try
                         {
@@ -23,7 +24,26 @@ namespace fivepdaudio
                             ChatMessage(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid value", "Needs to be true or false" });
                         }
                         break;
-
+                    // VOLUME
+                    case "volume":
+                        try
+                        {
+                            int newVolume = Convert.ToInt32(args[1]);
+                            if (newVolume >= 0 && newVolume <= 100)
+                            {
+                                Settings.SetVolume(newVolume);
+                            }
+                            else
+                            {
+                                ChatMessage(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid value", "Needs to be a whole number from 0-100 (0 will reset to default)" });
+                            }
+                        }
+                        catch
+                        {
+                            ChatMessage(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid value", "Needs to be a whole number from 0-100 (0 will reset to default)" });
+                        }
+                        break;
+                    // INVALID
                     default:
                         ChatMessage(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid argument", "Type /audio to see available commands" });
                         break;
@@ -33,7 +53,8 @@ namespace fivepdaudio
             {
                 ChatMessage(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid argument count" });
                 ChatMessage(new[] { 255, 255, 255 }, new[] { "Available arguments:" });
-                ChatMessage(new[] { 255, 255, 255 }, new[] { "debug true/false" });
+                ChatMessage(new[] { 255, 255, 255 }, new[] { "volume PERCENTAGE (0 will reset to default)" });
+                ChatMessage(new[] { 255, 255, 255 }, new[] { "debug TRUE/FALSE" });
             }
         }
 

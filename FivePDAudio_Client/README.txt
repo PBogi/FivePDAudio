@@ -15,6 +15,12 @@ Installation Instructions:
 3. Restart the server
 
 ------------------------------
+Chat Commands:
+------------------------------
+/audio volume PERCENTAGE
+/audio debug TRUE/FALSE
+
+------------------------------
 Links:
 ------------------------------
 Information, troubleshooting tips, customization options, developer guides and more on my wiki:
