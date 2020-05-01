@@ -13,7 +13,7 @@ namespace fivepdaudio
         static public async Task Play()
         {
             if (Dispatch.dispatchQueue.Count > 0 && isPlaying != true) {
-                Debug.WriteLine("Playing audio");
+                Main.OutputDebug("Playing audio");
                 string[] soundArray = Dispatch.dispatchQueue[0];
 
                 Dispatch.dispatchQueue.Remove(Dispatch.dispatchQueue[0]);
@@ -41,7 +41,7 @@ namespace fivepdaudio
                     }
                     await BaseScript.Delay(1000);
                 }
-                Debug.WriteLine("Stopped playing audio");
+                Main.OutputDebug("Stopped playing audio");
                 await BaseScript.Delay(1000);
             }
         }
@@ -51,7 +51,7 @@ namespace fivepdaudio
             isPlaying = true;
             Stop();
             await BaseScript.Delay(4250);
-            Debug.WriteLine("Playing Code 99 Audio");
+            Main.OutputDebug("Playing Code 99 Audio");
 
             var soundData = new
             {
@@ -73,7 +73,7 @@ namespace fivepdaudio
                 }
                 await BaseScript.Delay(1000);
             }
-            Debug.WriteLine("Stopped playing Code 99");
+            Main.OutputDebug("Stopped playing Code 99");
             await BaseScript.Delay(5000);
             isPlaying = false;
         }
@@ -82,7 +82,7 @@ namespace fivepdaudio
         {
             if (isPlaying == true)
             {
-                Debug.WriteLine("Force stopping playback");
+                Main.OutputDebug("Force stopping playback");
                 SendNuiMessage(JsonConvert.SerializeObject(new
                 {
                     Action = "stop"

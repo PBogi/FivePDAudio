@@ -69,22 +69,32 @@ namespace fivepdaudio
 
         void CommandHandler(int source, List<object> args, string raw)
         {
-
-            switch (args[0].ToString().ToLower())
+            if (args.Count >= 2)
             {
-                case "debug":
-                    try
-                    {
-                        Settings.Debug = Convert.ToBoolean(args[1]);
-                    }
-                    catch
-                    {
-                        OutputChat(new[] { 255, 0, 0 }, new[] { "Invalid value" });
-                    }
-                    break;
+                switch (args[0].ToString().ToLower())
+                {
+                    case "debug":
+                        try
+                        {
+                            Settings.Debug = Convert.ToBoolean(args[1]);
+                            OutputChat(new[] { 255, 255, 255 }, new[] { "[FivePDAudio] Set debug to " + args[1].ToString() + "; Debug messages should appear in the client console (F8)"});
+                        }
+                        catch
+                        {
+                            OutputChat(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid value", "Needs to be true or false"});
+                        }
+                        break;
 
-                default:
-                    break;
+                    default:
+                            OutputChat(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid argument","Type /audio to see available commands" });
+                        break;
+                }
+            }
+            else
+            {
+                OutputChat(new[] { 255, 0, 0 }, new[] { "[FivePDAudio] Invalid argument count" });
+                OutputChat(new[] { 255, 255, 255 }, new[] { "Available arguments:"});
+                OutputChat(new[] { 255, 255, 255 }, new[] { "debug true/false"});
             }
         }
 
@@ -97,7 +107,7 @@ namespace fivepdaudio
             });
         }
 
-        public void OutputDebug(string message)
+        public static void OutputDebug(string message)
         {
             if(Settings.Debug == true)
             {
@@ -109,11 +119,11 @@ namespace fivepdaudio
         {
             float ProfileVolume = GetProfileSetting(300) / 10; // 0? - 10 <stat Name="_PROFILE_SETTING_300"    Type="profilesetting"  profile="true"  FlushPriority="15"  ProfileSettingId="300"  Comment="AUDIO_SFX_LEVEL - 300" /><
             Settings.SoundVolume = ProfileVolume * 0.5f;
-            Debug.WriteLine("Audio Volume set to " + Settings.SoundVolume);
+            OutputDebug("Audio Volume set to " + Settings.SoundVolume);
 
             //Load callouts
             AudioLibrary.configuredCallouts = JObject.Parse(LoadResourceFile("fivepdaudio", "callouts.json"));
-            Debug.WriteLine("Loaded callouts.json");
+            OutputDebug("Loaded callouts.json");
         }
     }
 }
