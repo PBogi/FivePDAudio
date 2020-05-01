@@ -17,6 +17,7 @@ namespace fivepdaudio
             Debug.WriteLine("Received callout information");
             List<string> soundFiles = new List<string>();
 
+            // Dispatch Intro
             soundFiles.Add(@"EFFECTS/INTRO_01.ogg");
             List<string> SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"ATTENTION_ALL_UNITS_GEN/ATTENTION_ALL_UNITS_GENERIC_")).ToList();
             soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
@@ -29,7 +30,7 @@ namespace fivepdaudio
                 SearchFiles.AddRange(AudioLibrary.availableAudio.Where(x => x.StartsWith(@"WE_HAVE/WE")));
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
-                SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(AudioLibrary.registeredCrimeAudio[ShortName])).ToList();
+                SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(AudioLibrary.registeredCrimeAudio[ShortName], StringComparison.OrdinalIgnoreCase)).ToList();
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
             }
             else if (AudioLibrary.configuredCallouts.ContainsKey(ShortName))
@@ -38,16 +39,18 @@ namespace fivepdaudio
                 SearchFiles.AddRange(AudioLibrary.availableAudio.Where(x => x.StartsWith(@"WE_HAVE/WE")));
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
-                SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith((string)AudioLibrary.configuredCallouts[ShortName])).ToList();
+                SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith((string)AudioLibrary.configuredCallouts[ShortName], StringComparison.OrdinalIgnoreCase)).ToList();
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
             }
 
+            // Only play if Response Code is greater than 1, as there is no audio for that
             if (ResponseCode > 1)
             {
                 soundFiles.Add(@"DISPATCH_RESPOND_CODE/RESPOND_CODE_" + ResponseCode.ToString() + ".ogg");
             }
             soundFiles.Add(@"EFFECTS/OUTRO_01.ogg");
 
+            // Done, let's add it the the queue
             Debug.WriteLine("Finished creating playlist, adding it to dispatch queue");
             dispatchQueue.Add(soundFiles.ToArray());
         }
