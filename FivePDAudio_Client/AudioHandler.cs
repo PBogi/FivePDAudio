@@ -37,7 +37,7 @@ namespace fivepdaudio
                     if (i > 10)
                     {
                         // Force Stop
-                        await Stop();
+                        Stop();
                         isPlaying = false;
                     }
                     await BaseScript.Delay(1000);
@@ -50,7 +50,7 @@ namespace fivepdaudio
         public static async Task PlayCode99(string[] soundArray)
         {
             isPlaying = true;
-            await Stop();
+            Stop();
             await BaseScript.Delay(4250);
             Debug.WriteLine("Playing Code 99 Audio");
 
@@ -70,7 +70,7 @@ namespace fivepdaudio
                 if (i > 10)
                 {
                     // Force Stop
-                    await Stop();
+                    Stop();
                 }
                 await BaseScript.Delay(1000);
             }
@@ -79,9 +79,7 @@ namespace fivepdaudio
             isPlaying = false;
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public static async Task Stop()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        public static void Stop()
         {
             if (isPlaying == true)
             {
