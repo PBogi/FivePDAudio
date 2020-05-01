@@ -4,6 +4,7 @@ using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace fivepdaudio
 {
@@ -22,6 +23,8 @@ namespace fivepdaudio
                 //Speech.ChangeVoice(args);
             }), false);*/
 
+            RegisterCommand("audio", new Action<int, List<object>, string>(CommandHandler),false);
+ 
 
             // Register all Event handlers
             RegisterEventHandlers();
@@ -64,11 +67,49 @@ namespace fivepdaudio
 
         }
 
+        void CommandHandler(int source, List<object> args, string raw)
+        {
+
+            switch (args[0].ToString().ToLower())
+            {
+                case "debug":
+                    try
+                    {
+                        Settings.Debug = Convert.ToBoolean(args[1]);
+                    }
+                    catch
+                    {
+                        OutputChat(new[] { 255, 0, 0 }, new[] { "Invalid value" });
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        void OutputChat(int[] messagecolor, string[] message)
+        {
+            BaseScript.TriggerEvent("chat:addMessage", new
+            {
+                color = messagecolor, //new[] { 255, 0, 0 },
+                args = message //new[] { "Invalid value" }
+            });
+        }
+
+        public void OutputDebug(string message)
+        {
+            if(Settings.Debug == true)
+            {
+                Debug.WriteLine(message);
+            }            
+        }
+
         void GetSettings()
         {
             float ProfileVolume = GetProfileSetting(300) / 10; // 0? - 10 <stat Name="_PROFILE_SETTING_300"    Type="profilesetting"  profile="true"  FlushPriority="15"  ProfileSettingId="300"  Comment="AUDIO_SFX_LEVEL - 300" /><
-            AudioHandler.soundVolume = ProfileVolume * 0.5f;
-            Debug.WriteLine("Audio Volume set to " + AudioHandler.soundVolume);
+            Settings.SoundVolume = ProfileVolume * 0.5f;
+            Debug.WriteLine("Audio Volume set to " + Settings.SoundVolume);
 
             //Load callouts
             AudioLibrary.configuredCallouts = JObject.Parse(LoadResourceFile("fivepdaudio", "callouts.json"));

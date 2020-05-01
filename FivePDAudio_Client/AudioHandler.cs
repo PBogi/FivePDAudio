@@ -8,7 +8,6 @@ namespace fivepdaudio
 {
     class AudioHandler
     {
-        public static float soundVolume = 0.75f;
         public static bool isPlaying;
         
         static public async Task Play()
@@ -23,7 +22,7 @@ namespace fivepdaudio
                 {
                     Action = "play",
                     Files = soundArray,
-                    Volume = soundVolume
+                    Volume = Settings.SoundVolume
                 };
 
                 SendNuiMessage(JsonConvert.SerializeObject(soundData));
@@ -58,7 +57,7 @@ namespace fivepdaudio
             {
                 Action = "play",
                 Files = soundArray,
-                Volume = soundVolume
+                Volume = Settings.SoundVolume
             };
 
             SendNuiMessage(JsonConvert.SerializeObject(soundData));
