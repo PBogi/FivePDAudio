@@ -67,6 +67,7 @@ namespace fivepdaudio
         {
             Common.DebugMessage("Received backup information");
             List<string> soundFiles = new List<string>();
+            soundFiles.Add(@"EFFECTS/INTRO_01.ogg");
             List<string> SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"ATTENTION_ALL_UNITS_GEN/ATTENTION_ALL_UNITS_GENERIC_")).ToList();
             soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
 
@@ -75,6 +76,7 @@ namespace fivepdaudio
                 Common.DebugMessage("Code 99!");
                 SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"OFFICER_REQUESTS_BACKUP/CODE99")).ToList();
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
+                soundFiles.Add(@"EFFECTS/OUTRO_01.ogg");
 
                 await AudioHandler.PlayCode99(soundFiles.ToArray());
             }
@@ -85,7 +87,7 @@ namespace fivepdaudio
                 {
                     soundFiles.Add(@"DISPATCH_RESPOND_CODE/RESPOND_CODE_" + ResponseCode.ToString() + ".ogg");
                 }
-
+                soundFiles.Add(@"EFFECTS/OUTRO_01.ogg");
                 Common.DebugMessage("Finished creating playlist, adding it to dispatch queue");
                 dispatchQueue.Add(soundFiles.ToArray());
             } 
