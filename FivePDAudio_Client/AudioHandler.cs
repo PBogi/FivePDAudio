@@ -17,8 +17,6 @@ namespace fivepdaudio
                 Common.DebugMessage("Playing audio");
                 string[] soundArray = Dispatch.dispatchQueue[0];
 
-                Dispatch.dispatchQueue.Remove(Dispatch.dispatchQueue[0]);
-
                 var soundData = new
                 {
                     Action = "play",
@@ -38,10 +36,11 @@ namespace fivepdaudio
                     {
                         // Force Stop
                         Stop();
-                        isPlaying = false;
                     }
                     await BaseScript.Delay(1000);
                 }
+                Dispatch.dispatchQueue.Remove(Dispatch.dispatchQueue[0]);
+                isPlaying = false;
                 Common.DebugMessage("Stopped playing audio");
                 await BaseScript.Delay(1000);
             }

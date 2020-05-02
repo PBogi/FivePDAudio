@@ -7,6 +7,7 @@ namespace fivepdaudio
     {
         public static bool Debug = false;
         public static float SoundVolume = 0.5f;
+        public static int MaxDispatchQueue = 3;
 
         // Read settings from json and playerprofile
         public static void GetSettings()

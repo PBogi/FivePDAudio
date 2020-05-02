@@ -89,7 +89,10 @@ namespace fivepdaudio
                 }
                 soundFiles.Add(@"EFFECTS/OUTRO_01.ogg");
                 Common.DebugMessage("Finished creating playlist, adding it to dispatch queue");
-                dispatchQueue.Add(soundFiles.ToArray());
+                if (dispatchQueue.Count <= Settings.MaxDispatchQueue)
+                {
+                    dispatchQueue.Add(soundFiles.ToArray());
+                }
             } 
 
         }
@@ -102,7 +105,10 @@ namespace fivepdaudio
         public static void EndBackupRequest(string CallSign,int networkID)
         {
             Common.DebugMessage("Received code 4, adding it to dispatch queue");
-            dispatchQueue.Add(new string[] { @"STAND_DOWN/ALL_UNITS_CODE_4.ogg" });
+            if (dispatchQueue.Count <= Settings.MaxDispatchQueue)
+            {
+                dispatchQueue.Add(new string[] { @"STAND_DOWN/ALL_UNITS_CODE_4.ogg" });
+            }
         }
 
 
@@ -110,7 +116,7 @@ namespace fivepdaudio
         public static void AddToDispatchQueue(string audioList)
         {
             Common.DebugMessage("Dispatch playlist received via event from 3rd party, adding it to queue");
-            if (dispatchQueue.Count <= 3)
+            if (dispatchQueue.Count <= Settings.MaxDispatchQueue)
             {
                 dispatchQueue.Add(audioList.Split(','));
             }
