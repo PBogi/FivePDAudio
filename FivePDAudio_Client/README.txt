@@ -15,11 +15,17 @@ Installation Instructions:
 3. Restart the server
 
 ------------------------------
+Chat Commands:
+------------------------------
+/audio volume PERCENTAGE
+/audio debug TRUE/FALSE
+
+------------------------------
 Links:
 ------------------------------
-Information, troubleshooting tips, customization options, developer guides and more on my wiki:
+Installation guide, troubleshooting, customization options, developer guides and more on my wiki:
 https://gitlab.pbogi.com/bogi/fivepdaudio/-/wikis/home
 
-Download the newest version from:
+Download the latest version from:
 https://gtapolicemods.com/index.php?/files/file/895-fivepd-audio-beta-dispatch-audio
 ------------------------------
