@@ -9,10 +9,11 @@ namespace fivepdaudio
     class AudioHandler
     {
         public static bool isPlaying;
+        public static bool isCode99 = false;
         
-        static public async Task Play()
+        public static async Task Play()
         {
-            if (Dispatch.dispatchQueue.Count > 0 && isPlaying != true) {
+            if (Dispatch.dispatchQueue.Count > 0 && isPlaying != true && isCode99 != true) {
                 Common.DebugMessage("Playing audio");
                 string[] soundArray = Dispatch.dispatchQueue[0];
 
@@ -33,7 +34,7 @@ namespace fivepdaudio
                 while(isPlaying == true)
                 {
                     i++;
-                    if (i > 10)
+                    if (i > 10 && isCode99 == false)
                     {
                         // Force Stop
                         Stop();
@@ -48,9 +49,11 @@ namespace fivepdaudio
 
         public static async Task PlayCode99(string[] soundArray)
         {
+            isCode99 = true;
             isPlaying = true;
             Stop();
             await BaseScript.Delay(4250);
+
             Common.DebugMessage("Playing Code 99 Audio");
 
             var soundData = new
@@ -66,7 +69,7 @@ namespace fivepdaudio
             while (isPlaying == true)
             {
                 i++;
-                if (i > 10)
+                if (i > 15)
                 {
                     // Force Stop
                     Stop();
@@ -76,6 +79,7 @@ namespace fivepdaudio
             Common.DebugMessage("Stopped playing Code 99");
             await BaseScript.Delay(5000);
             isPlaying = false;
+            isCode99 = false;
         }
 
         public static void Stop()
