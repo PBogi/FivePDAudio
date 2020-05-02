@@ -43,7 +43,7 @@ namespace fivepdaudio
             // Receive Callout
             EventHandlers["FIVEPD::CalloutManager::sendCalloutToComputer"] += new Action<string, string, int, string, string>(Dispatch.ReceiveCalloutInformation);
             // End Callout
-            //EventHandlers["FIVEPD::CalloutManager::completeCallout"] += new Action<string>(Dispatch.CalloutEnded);
+            EventHandlers["FIVEPD::CalloutManager::completeCallout"] += new Action<string>(Dispatch.CalloutEnded);
             // Receive Backup Request
             EventHandlers["nuiReceiveAssistanceRequiredCallout"] += new Action<string, int, string, int, int>(Dispatch.ReceiveBackupRequestCallout);
             EventHandlers["nuiReceiveAssistanceRequired"] += new Action<string, int, int, int>(Dispatch.ReceiveBackupRequest);
