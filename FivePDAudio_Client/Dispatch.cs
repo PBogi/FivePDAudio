@@ -121,5 +121,32 @@ namespace fivepdaudio
                 dispatchQueue.Add(audioList.Split(','));
             }
         }
+
+        List<string> DispatchIntro(int ResponseCode)
+        {
+            List<string> soundFiles = new List<string>();
+            soundFiles.Add(@"EFFECTS/INTRO_01.ogg");
+
+            if (ResponseCode == 2)
+            {
+                // Respond with Callsign 75%
+            }
+            else if(ResponseCode == 3)
+            {
+                // Respond with Callsign 50%
+            }
+            else if(ResponseCode == 99)
+            {
+                // Respond with Callsign 0%
+                List<string> SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"ATTENTION_ALL_UNITS_GEN/ATTENTION_ALL_UNITS_GENERIC_")).ToList();
+                soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
+            }
+            else
+            {
+                //Respond with Callsign 90%
+            }
+
+            return soundFiles;
+        }
     }
 }
