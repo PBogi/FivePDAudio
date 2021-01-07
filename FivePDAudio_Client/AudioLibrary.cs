@@ -12,11 +12,20 @@ namespace fivepdaudio
             registeredCrimeAudio[calloutName] = calloutAudio;
         }
 
+        public static Dictionary<string, List<string>> callsignAudio = new Dictionary<string, List<string>>();
+
         // config
         public static JObject configuredCallouts = new JObject();
 
 
         // static arrays/lists
+        /* You can use the following PowerShell script to generate this list:
+            $audiofolder = "<PATH_TO_AUDIOFILES>"
+
+            Get-ChildItem $audiofolder -Recurse -Include *.ogg | ForEach-Object {
+                Write-Host "@`"$($_.FullName.Replace($audiofolder+'\','').Replace('\','/').ToLower())`","
+            }
+        */
         public static List<string> availableAudio = new List<string>
         {
             @"ASSISTANCE_REQUIRED/ASSISTANCE_NEEDED.ogg",

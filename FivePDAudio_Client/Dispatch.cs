@@ -16,12 +16,14 @@ namespace fivepdaudio
         {
             Common.DebugMessage("Received callout information");
             List<string> soundFiles = new List<string>();
+            List<string> SearchFiles = new List<string>();
 
             // Dispatch Intro
-            soundFiles.Add(@"EFFECTS/INTRO_01.ogg");
+            /*soundFiles.Add(@"EFFECTS/INTRO_01.ogg");
             List<string> SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"ATTENTION_ALL_UNITS_GEN/ATTENTION_ALL_UNITS_GENERIC_")).ToList();
-            soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
+            soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);*/
 
+            soundFiles = soundFiles.Concat(DispatchIntro(ResponseCode)).ToList();
 
             // Search for registered callouts first, then check callouts.json
             if (AudioLibrary.registeredCrimeAudio.ContainsKey(ShortName))
@@ -122,31 +124,104 @@ namespace fivepdaudio
             }
         }
 
-        List<string> DispatchIntro(int ResponseCode)
+        static List<string> DispatchIntro(int ResponseCode)
         {
+            // Update playerdata object
+            Settings.GetPlayerData();
+
             List<string> soundFiles = new List<string>();
             soundFiles.Add(@"EFFECTS/INTRO_01.ogg");
 
-            if (ResponseCode == 2)
+            //int chance = random.Next(0, 100);
+            int chance = 1;
+
+            if ((string)Settings.playerData.Callsign != null
+                &&  (string)Settings.playerData.Callsign != ""
+                && ResponseCode != 99
+                && (
+                    (ResponseCode == 3 && chance < 50 )
+                    || (ResponseCode == 2 && chance < 75)
+                    || ResponseCode == 1
+                )
+            )
             {
-                // Respond with Callsign 75%
+                // Add "greeting"
+                soundFiles = soundFiles.Concat(GetCallsignAudio((string)Settings.playerData.Callsign)).ToList();
             }
-            else if(ResponseCode == 3)
-            {
-                // Respond with Callsign 50%
-            }
-            else if(ResponseCode == 99)
-            {
-                // Respond with Callsign 0%
+            else {
                 List<string> SearchFiles = AudioLibrary.availableAudio.Where(x => x.StartsWith(@"ATTENTION_ALL_UNITS_GEN/ATTENTION_ALL_UNITS_GENERIC_")).ToList();
                 soundFiles.Add(SearchFiles[random.Next(0, SearchFiles.Count)]);
             }
-            else
-            {
-                //Respond with Callsign 90%
-            }
+
 
             return soundFiles;
         }
+
+        public static List<string> GetCallsignAudio(string callsign)
+        {
+            List<string> callsignAudio = new List<string>();
+
+            if (AudioLibrary.callsignAudio.ContainsKey(callsign))
+            {
+                callsignAudio = AudioLibrary.callsignAudio[callsign];
+            }
+            else
+            {
+                // Regex (not working with FiveM): [a-zA-Z]+|[0-9]+(?:\.[0-9]+|)
+                string callsignQuery = callsign.ToLower() + "_____";
+                
+                //TODO: first digit not taken from "CAR_CODE_DIVISION"
+                for(int i=0;i < callsignQuery.Length; i++)
+                {
+                    // letter
+                    if (char.IsLetter(callsignQuery[i]))
+                    {
+                        callsignAudio.Add(@"CAR_CODE_UNIT_TYPE/" + callsignQuery[i] + ".ogg");
+                    }
+                    // 3 digit number
+                    if (char.IsDigit(callsignQuery[i]) && int.TryParse(String.Concat(callsignQuery[i], callsignQuery[i + 1], callsign[i + 2]), out int number3) && (number3 % 100) <= 24)
+                    {
+                        callsignAudio.Add(@"CAR_CODE_DIVISION/" + callsignQuery[i] + ".ogg");
+                        callsignAudio.Add(@"CAR_CODE_BEAT/" + (number3 % 100) + ".ogg");
+                        i += 2;
+                    }
+                    // 2 digit number
+                    else if (char.IsDigit(callsignQuery[i]) && int.TryParse(String.Concat(callsignQuery[i], callsignQuery[i + 1]), out int number2) && number2 <= 24)
+                    {
+                        if (i == 1 && number2 == 10)
+                        {
+                            callsignAudio.Add(@"CAR_CODE_DIVISION/" + number2 + ".ogg");
+                        }
+                        else
+                        {
+                            callsignAudio.Add(@"CAR_CODE_BEAT/" + number2 + ".ogg");
+                        }
+                        i++;
+                    }
+                    // 1 digit number at beginning
+                    else if(i==1 && char.IsDigit(callsignQuery[i]))
+                    {
+                        callsignAudio.Add(@"CAR_CODE_DIVISION/" + callsignQuery[i] + ".ogg");
+                    }
+                    // 1 digit number in between
+                    else if(char.IsDigit(callsignQuery[i]))
+                    {
+                        callsignAudio.Add(@"CAR_CODE_BEAT/" + callsignQuery[i] + ".ogg");
+                    }
+                }
+
+                foreach(string test in callsignAudio)
+                {
+                    Common.ChatMessage(new[] { 255, 255, 255 }, new[] { test });
+                }
+
+                // Save list to dictionary
+                AudioLibrary.callsignAudio[callsign] = callsignAudio;
+            }
+
+            // Return list to caller
+            return callsignAudio;
+        }
+
     }
 }

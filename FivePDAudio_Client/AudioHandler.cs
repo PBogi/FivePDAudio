@@ -90,6 +90,7 @@ namespace fivepdaudio
                 {
                     Action = "stop"
                 }));
+                isPlaying = false;
             }
         }
 

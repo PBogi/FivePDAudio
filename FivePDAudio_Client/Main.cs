@@ -27,6 +27,11 @@ namespace fivepdaudio
             await AudioHandler.Play();
         }
 
+        private static void OnSpawn(object spawnInfo)
+        {
+            Settings.GetPlayerData();
+        }
+
         void RegisterEventHandlers()
         {
             // Register Audio API Event Handlers
@@ -49,6 +54,11 @@ namespace fivepdaudio
             EventHandlers["nuiReceiveAssistanceRequired"] += new Action<string, int, int, int>(Dispatch.ReceiveBackupRequest);
             // End Backup Request
             EventHandlers["nuiDeleteAssistanceRequired"] += new Action<string, int>(Dispatch.EndBackupRequest);
+
+            /*********************\
+            |  Basic FiveM Events  |
+            \* *******************/
+            EventHandlers["playerSpawned"] += new Action<object>(OnSpawn);
         }
     }
 }
