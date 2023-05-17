@@ -1,6 +1,7 @@
 # FivePDAudio
 This is a script for FivePD, a police modification for FiveM.
-You can find the download here: https://gtapolicemods.com/files/file/895-fivepd-audio-dispatch-audio/
+~~You can find the download here: https://gtapolicemods.com/files/file/895-fivepd-audio-dispatch-audio/~~
+*GPM unfortunately shut down. Latest version is available under "Releases", but without the copyrighted audio files.*
 
 Feel free to create a pull request.
 
